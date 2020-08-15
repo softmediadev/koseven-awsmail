@@ -64,29 +64,33 @@ return array(
 
 ### Example 1
 ```php
-$result = AWSMail::message()
-  ->from('from@domain.com', 'Name from')
-  ->to('to@domain.com', 'Name to')
-  ->subject('This is the subject')
-  ->body('This is the content')
-  ->send();
+$instance = AWSMail::message();
+$instance->from('from@domain.com', 'Name from');
+$instance->to('to@domain.com', 'Name to');
+$instance->subject('This is the subject');
+$instance->body('This is the content');
+$result = $instance->send();
       
 print_r($result);
 ```
 
 ### Example 2
 ```php
-$result = AWSMail::message()
-  ->from('from@domain.com', 'Name from')
-  ->to('to1@domain.com', 'Name to 1')
-  ->to('to2@domain.com', 'Name to 2')
-  ->cc('cc@domain.com', 'Name cc')
-  ->cc(array('cc2@domain.com', 'cc3@domain.com', 'cc4@domain.com' => 'Name cc4'))
-  ->bcc('bcc@domain.com', 'Name bcc')
-  ->reply_to('replyto@domain.com', 'Name reply to')
-  ->subject('This is the subject')
-  ->body('This is the content')
-  ->send();
+$instance = AWSMail::message();
+$instance->from('from@domain.com', 'Name from');
+$instance->to('to1@domain.com', 'Name to 1');
+$instance->to('to2@domain.com', 'Name to 2');
+$instance->cc('cc@domain.com', 'Name cc');
+$instance->cc(array(
+	'cc2@domain.com', 
+	'cc3@domain.com', 
+	'cc4@domain.com' => 'Name cc4'
+));
+$instance->bcc('bcc@domain.com', 'Name bcc');
+$instance->reply_to('replyto@domain.com', 'Name reply to');
+$instance->subject('This is the subject');
+$instance->body('This is the content');
+$result = $instance->send();
 
 print_r($result);
 ```
@@ -97,15 +101,15 @@ $file1 = 'dir/filename.ext';
 $file2 = 'http://domain.com/page.html';
 $file3 = 'This is the content of the attachment';
 
-$result = AWSMail::message()
-  ->from('from@domain.com', 'Name from')
-  ->to('to1@domain.com', 'Name to 1')
-  ->subject('This is the subject')
-  ->body('<p>This is the Html content</p>', 'This is the Text content')
-  ->attachment($file1, 'local_file.ext')
-  ->attachment($file2, 'external_file.html')
-  ->attachment($file3, 'text.txt')
-  ->send();
+$instance = AWSMail::message();
+$instance->from('from@domain.com', 'Name from');
+$instance->to('to1@domain.com', 'Name to 1');
+$instance->subject('This is the subject');
+$instance->body('<p>This is the Html content</p>', 'This is the Text content');
+$instance->attachment($file1, 'local_file.ext');
+$instance->attachment($file2, 'external_file.html');
+$instance->attachment($file3, 'text.txt');
+$result = $instance->send();
       
 print_r($result);
 ```
@@ -150,8 +154,20 @@ print_r($result);
 
 ### Create a destination object
 ```php
-$destination1 = AWSMail::destinations()->to('to@domain.com')->data(array('name' => 'My Name', 'color' => 'Green'));
-$destination2 = AWSMail::destinations()->to('to@domain.com')->cc('cc@domain.com')->data(array('name' => 'My Other Name', 'color' => 'Blue'));
+$destination1 = AWSMail::destinations();
+$destination1->to('to@domain.com');
+$destination1->data(array(
+	'name' => 'My Name', 
+	'color' => 'Green'
+));
+
+$destination2 = AWSMail::destinations();
+$destination2->to('to@domain.com');
+$destination2->cc('cc@domain.com');
+$destination2->data(array(
+	'name' => 'My Other Name', 
+	'color' => 'Blue'
+));
 ```
 
 ## Template
