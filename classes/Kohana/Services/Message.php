@@ -140,7 +140,8 @@ class Kohana_Services_Message extends AWSMail_Main
 					$result->sent = TRUE;
 					$result->message_id = $response['MessageId'];
 				}
-			} catch(Aws\Exception\AwsException $e)
+			}
+			catch(Aws\Exception\AwsException $e)
 			{
 				$result->code = $e->getStatusCode();
 				$result->error = $e->getAwsErrorMessage();
@@ -150,7 +151,7 @@ class Kohana_Services_Message extends AWSMail_Main
 		}
 		else
 		{
-			throw new HTTP_Exception_404('Message failed validation.');
+			throw new AWSMail_Exception('Message failed validation.');
 		}
 	}
 

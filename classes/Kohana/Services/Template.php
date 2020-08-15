@@ -82,7 +82,7 @@ class Kohana_Services_Template extends AWSMail_Main
 		}
 		else
 		{
-			throw new HTTP_Exception_404('Message failed validation.');
+			throw new AWSMail_Exception('Message failed validation.');
 		}
 	}
 
