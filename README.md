@@ -158,7 +158,7 @@ $destination1 = AWSMail::destinations();
 $destination1->to('to@domain.com');
 $destination1->data(array(
 	'name' => 'My Name', 
-	'color' => 'Green'
+	'favoritecolor' => 'Green'
 ));
 
 $destination2 = AWSMail::destinations();
@@ -166,7 +166,7 @@ $destination2->to('to@domain.com');
 $destination2->cc('cc@domain.com');
 $destination2->data(array(
 	'name' => 'My Other Name', 
-	'color' => 'Blue'
+	'favoritecolor' => 'Blue'
 ));
 ```
 
@@ -178,7 +178,7 @@ $template = AWSMail::template();
 $template->name('tempalte_name');
 $template->destination($destination1);
 $template->destination($destination2);
-$template->default_data(array('name' => 'Unknown', 'color' => 'White'));
+$template->default_data(array('name' => 'Unknown', 'favoritecolor' => 'White'));
 $result = $template->send();
 
 print_r($result);
