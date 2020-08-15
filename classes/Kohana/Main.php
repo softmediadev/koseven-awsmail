@@ -1,14 +1,13 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Kohana_Main
-{
-    protected $config;
+abstract class Kohana_Main {
+	protected $config;
 	protected $client;
 	protected $params;
 
-    public function __construct()
-    {
-        $this->config = Kohana::$config->load('awsmail');
+	public function __construct()
+	{
+		$this->config = Kohana::$config->load('awsmail');
 
 		$this->client = new Aws\Ses\SesClient(array(
 			'key' => $this->config->access_key,
@@ -17,7 +16,7 @@ abstract class Kohana_Main
 			'region' => $this->config->region
 		));
 
-		if (isset($this->config->source_email))
+		if(isset($this->config->source_email))
 			$this->params['Source'] = $this->format_email($this->config->source_email);
 
 		if(isset($this->config->return_email))
@@ -31,15 +30,15 @@ abstract class Kohana_Main
 		return $this;
 	}
 
-    public function from($email, $name = NULL)
-    {
-    	$email = $this->format_email($email, $name);
+	public function from($email, $name = NULL)
+	{
+		$email = $this->format_email($email, $name);
 
-    	if ( ! empty($email))
+		if( ! empty($email))
 			$this->params['Source'] = $email;
 
-        return $this;
-    }
+		return $this;
+	}
 
 	public function reply_to($email, $name = NULL)
 	{
@@ -68,13 +67,13 @@ abstract class Kohana_Main
 
 	protected function format_email($email, $name = NULL)
 	{
-		if (is_array($email))
+		if(is_array($email))
 		{
 			$result = array();
 
 			foreach($email as $key => $value)
 			{
-				if (is_numeric($key))
+				if(is_numeric($key))
 				{
 					$k = $value;
 					$v = NULL;
@@ -87,18 +86,18 @@ abstract class Kohana_Main
 
 				$value = $this->format_email($k, $v);
 
-				if ( ! empty($value))
+				if( ! empty($value))
 					$result[] = $value;
 			}
 
-			if (count($result) == 1)
+			if(count($result) == 1)
 				return $result[0];
 			else
 				return $result;
 		}
 		else
 		{
-			if (Valid::email($email))
+			if(Valid::email($email))
 			{
 				if( ! empty($name))
 					$email = trim($name) . ' <' . trim($email) . '>';
@@ -126,7 +125,7 @@ abstract class Kohana_Main
 			$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-			if ($http_code == 200)
+			if($http_code == 200)
 				$value = substr($response, $header_size);
 			else
 				$value = NULL;
