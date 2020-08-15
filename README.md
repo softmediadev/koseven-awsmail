@@ -1,6 +1,9 @@
 # koseven-awsmail
 Amazon Simple Email Service enables you to send and receive email using a reliable and scalable email platform.
 
+Jump To:
+* [Installation](_##installation_)
+
 #### Requirements
 
 Read the Amazon Simple Email Service documentation
