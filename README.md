@@ -2,7 +2,7 @@
 Amazon Simple Email Service enables you to send and receive email using a reliable and scalable email platform.
 
 Jump To:
-* [Installation](_#installation_)
+* [Installation](#installation)
 
 #### Requirements
 
