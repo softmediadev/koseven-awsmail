@@ -100,6 +100,42 @@ $result = AWSMail::message()
 print_r($result);
 ```
 
+## Utility
+
+### Create a template
+```php
+$html = '<h1>Hello {{name}},</h1><p>Your favorite animal is {{favoriteanimal}}.</p>';
+$text = 'Dear {{name}},\r\nYour favorite animal is {{favoriteanimal}}.';
+
+$ret = AWSMail::utility()->create_template('template_name', 'Greetings {{name}}', $html, $text);
+
+print_r($ret);
+```
+
+### Update a template
+```php
+$html = '<h1>Hello {{name}},</h1><p>Your favorite color is {{favoritecolor}}.</p>';
+$text = 'Dear {{name}},\r\nYour favorite color is {{favoritecolor}}.';
+
+$ret = AWSMail::utility()->update_template('template_name', 'Greetings {{name}}', $html, $text);
+
+print_r($ret);
+```
+
+### Get a template
+```php
+$ret = AWSMail::utility()->get_template('template_name');
+
+print_r($ret);
+```
+
+### Delete a template
+```php
+$ret = AWSMail::utility()->delete_template('template_name');
+
+print_r($ret);
+```
+
 #### ABOUT AND LICENSE
 
 Copyright (c) 2020, Soft Media Development. All right reserved.
