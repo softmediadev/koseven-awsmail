@@ -3,6 +3,11 @@ Amazon Simple Email Service enables you to send and receive email using a reliab
 
 Jump To:
 * [Installation](#installation)
+* [Configuration](#configuration)
+* [Message](#message)
+* [Utility](#utility)
+* [Destinations](#destinations)
+* [Template](#template)
 
 #### Requirements
 
@@ -52,6 +57,8 @@ return array(
   'charset' => 'UTF-8'
 );
 ```
+
+# Methods
 
 ## Message
 
