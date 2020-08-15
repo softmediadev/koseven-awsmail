@@ -1,6 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Kohana_Main {
+abstract class Kohana_Main 
+{
 	protected $config;
 	protected $client;
 	protected $params;
