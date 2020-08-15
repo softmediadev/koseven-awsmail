@@ -1,0 +1,3 @@
+[submodule "vendor/awsmail"]
+	path = vendor/awsmail
+	url = https://github.com/aws/aws-sdk-php
