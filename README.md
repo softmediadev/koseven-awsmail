@@ -107,9 +107,9 @@ print_r($result);
 $html = '<h1>Hello {{name}},</h1><p>Your favorite animal is {{favoriteanimal}}.</p>';
 $text = 'Dear {{name}},\r\nYour favorite animal is {{favoriteanimal}}.';
 
-$ret = AWSMail::utility()->create_template('template_name', 'Greetings {{name}}', $html, $text);
+$result = AWSMail::utility()->create_template('template_name', 'Greetings {{name}}', $html, $text);
 
-print_r($ret);
+print_r($result);
 ```
 
 ### Update a template
@@ -117,23 +117,45 @@ print_r($ret);
 $html = '<h1>Hello {{name}},</h1><p>Your favorite color is {{favoritecolor}}.</p>';
 $text = 'Dear {{name}},\r\nYour favorite color is {{favoritecolor}}.';
 
-$ret = AWSMail::utility()->update_template('template_name', 'Greetings {{name}}', $html, $text);
+$result = AWSMail::utility()->update_template('template_name', 'Greetings {{name}}', $html, $text);
 
-print_r($ret);
+print_r($result);
 ```
 
 ### Get a template
 ```php
-$ret = AWSMail::utility()->get_template('template_name');
+$result = AWSMail::utility()->get_template('template_name');
 
-print_r($ret);
+print_r($result);
 ```
 
 ### Delete a template
 ```php
-$ret = AWSMail::utility()->delete_template('template_name');
+$result = AWSMail::utility()->delete_template('template_name');
 
-print_r($ret);
+print_r($result);
+```
+
+## Destinations
+
+### Create a destination object
+```php
+$destination1 = AWSMail::destinations()->to('to@domain.com')->data(array('name' => 'My Name', 'color' => 'Green'));
+$destination2 = AWSMail::destinations()->to('to@domain.com')->cc('cc@domain.com')->data(array('name' => 'My Other Name', 'color' => 'Blue'));
+```
+
+## Template
+
+You can send up to 50 destinations in a single call using a template
+```php
+$template = AWSMail::template();
+$template->name('tempalte_name');
+$template->destination($destination1);
+$template->destination($destination2);
+$template->default_data(array('name' => 'Unknown', 'color' => 'White'));
+$result = $template->send();
+
+print_r($result);
 ```
 
 #### ABOUT AND LICENSE
