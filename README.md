@@ -16,6 +16,7 @@ Read the Amazon Simple Email Service documentation
 * **Access Key**: https://console.aws.amazon.com/iam/home
 * **Developer Guide**: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/Welcome.html
 * **Documentation**: https://docs.aws.amazon.com/ses/index.html
+* **AWS SDK for PHP**: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-using-sdk-php.html
 * **SDK API**: https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-email-2010-12-01.html
 
 #### Installation
