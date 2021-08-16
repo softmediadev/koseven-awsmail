@@ -1,11 +1,19 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 
-return array(
-	'access_key' => '',
-	'secret_key' => '',
+return [
+	'credentials' => [
+		'file' => [
+			'path' => NULL,
+			'profile' => 'default'
+		],
+		'access' => [
+			'key' => NULL,
+			'secret' => NULL
+		]
+	],
 	'region' => 'us-east-1',
 	'version' => 'latest',
-	'source_email' => array('email@domain.com' => 'Name'),
-	'return_email' => array('email@domain.com' => 'Name'),
+	'source_email' => NULL,
+	'return_email' => NULL,
 	'charset' => 'UTF-8'
-);
+];
