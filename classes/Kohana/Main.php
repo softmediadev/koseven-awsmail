@@ -1,21 +1,51 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 
-abstract class Kohana_Main 
+use Aws\Ses\SesClient;
+use Aws\Credentials\CredentialProvider;
+
+abstract class Kohana_Main
 {
-	protected $config;
-	protected $client;
-	protected $params;
-
+	protected Config_Group $config;
+	protected SesClient $client;
+	protected array $params = [];
+	
 	public function __construct()
 	{
 		$this->config = Kohana::$config->load('awsmail');
-
-		$this->client = new Aws\Ses\SesClient(array(
-			'key' => $this->config->access_key,
-			'secret' => $this->config->secret_key,
+		$credentials = NULL;
+		
+		if (isset($this->config->credentials['file']))
+		{
+			$path = $this->config->credentials['file']['path'];
+			$profile = $this->config->credentials['file']['profile'];
+			
+			if ( ! empty($path) AND ! empty($profile))
+			{
+				$provider = CredentialProvider::ini($profile, $path);
+				$credentials = CredentialProvider::memoize($provider);
+			}
+		}
+		
+		if (isset($this->config->credentials['access']) AND empty($credentials))
+		{
+			$key = $this->config->credentials['access']['key'];
+			$secret = $this->config->credentials['access']['secret'];
+			
+			if ( ! empty($key) AND ! empty($secret))
+			{
+				$credentials['key'] = $key;
+				$credentials['secret'] = $secret;
+			}
+		}
+		
+		if (empty($credentials))
+			exit;
+		
+		$this->client = new SesClient([
 			'version' => $this->config->version,
-			'region' => $this->config->region
-		));
+			'region' => $this->config->region,
+			'credentials' => $credentials
+		]);
 
 		if(isset($this->config->source_email))
 			$this->params['Source'] = $this->format_email($this->config->source_email);
@@ -24,14 +54,14 @@ abstract class Kohana_Main
 			$this->params['ReturnPath'] = $this->format_email($this->config->return_email);
 	}
 
-	public function configuration($name)
+	public function configuration($name): static
 	{
 		$this->params['ConfigurationSetName'] = $name;
 
 		return $this;
 	}
 
-	public function from($email, $name = NULL)
+	public function from($email, $name = NULL): static
 	{
 		$email = $this->format_email($email, $name);
 
@@ -41,7 +71,7 @@ abstract class Kohana_Main
 		return $this;
 	}
 
-	public function reply_to($email, $name = NULL)
+	public function reply_to($email, $name = NULL): static
 	{
 		$email = $this->format_email($email, $name);
 
@@ -51,7 +81,7 @@ abstract class Kohana_Main
 		return $this;
 	}
 
-	public function return_path($email, $name = NULL, $arn = NULL)
+	public function return_path($email, $name = NULL, $arn = NULL): static
 	{
 		$email = $this->format_email($email, $name);
 
@@ -70,7 +100,7 @@ abstract class Kohana_Main
 	{
 		if(is_array($email))
 		{
-			$result = array();
+			$result = [];
 
 			foreach($email as $key => $value)
 			{
