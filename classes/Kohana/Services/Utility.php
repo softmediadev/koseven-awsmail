@@ -1,8 +1,8 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 
 class Kohana_Services_Utility extends AWSMail_Main
 {
-	public function create_template($name, $subject, $html, $text = NULL)
+	public function create_template($name, $subject, $html, $text = NULL): array
 	{
 		$html = $this->get_content($html);
 		$text = $this->get_content($text);
@@ -19,7 +19,7 @@ class Kohana_Services_Utility extends AWSMail_Main
 		return $result->toArray();
 	}
 
-	public function update_template($name, $subject, $html, $text = NULL)
+	public function update_template($name, $subject, $html, $text = NULL): array
 	{
 		$html = $this->get_content($html);
 		$text = $this->get_content($text);
@@ -36,7 +36,7 @@ class Kohana_Services_Utility extends AWSMail_Main
 		return $result->toArray();
 	}
 
-	public function delete_template($name)
+	public function delete_template($name): array
 	{
 		$result = $this->client->deleteTemplate([
 			'TemplateName' => $name
@@ -45,7 +45,7 @@ class Kohana_Services_Utility extends AWSMail_Main
 		return $result->toArray();
 	}
 
-	public function get_template($name)
+	public function get_template($name): array
 	{
 		$result = $this->client->getTemplate([
 			'TemplateName' => $name
