@@ -1,10 +1,12 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
+
+use Aws\Exception\AwsException;
 
 class Kohana_Services_Message extends AWSMail_Main
 {
-	protected $attachments;
+	protected array $attachments = [];
 
-	public function to($email, $name = NULL)
+	public function to($email, $name = NULL): static
 	{
 		$email = $this->format_email($email, $name);
 
@@ -14,7 +16,7 @@ class Kohana_Services_Message extends AWSMail_Main
 		return $this;
 	}
 
-	public function cc($email, $name = NULL)
+	public function cc($email, $name = NULL): static
 	{
 		$email = $this->format_email($email, $name);
 
@@ -24,7 +26,7 @@ class Kohana_Services_Message extends AWSMail_Main
 		return $this;
 	}
 
-	public function bcc($email, $name = NULL)
+	public function bcc($email, $name = NULL): static
 	{
 		$email = $this->format_email($email, $name);
 
@@ -34,7 +36,7 @@ class Kohana_Services_Message extends AWSMail_Main
 		return $this;
 	}
 
-	public function subject($value, $charset = NULL)
+	public function subject($value, $charset = NULL): static
 	{
 		$this->params['Message']['Subject']['Data'] = $value;
 		$this->params['Message']['Subject']['Charset'] = empty($charset) ? $this->config->charset : $charset;
@@ -42,7 +44,7 @@ class Kohana_Services_Message extends AWSMail_Main
 		return $this;
 	}
 
-	public function body($html, $text = NULL, $charset = NULL)
+	public function body($html, $text = NULL, $charset = NULL): static
 	{
 		if ( ! empty($html))
 		{
@@ -59,17 +61,17 @@ class Kohana_Services_Message extends AWSMail_Main
 		return $this;
 	}
 
-	public function tag($name, $value)
+	public function tag($name, $value): static
 	{
-		$this->params['Tags'][] = array(
+		$this->params['Tags'][] = [
 			'Name' => $name,
 			'Value' => $value
-		);
+		];
 
 		return $this;
 	}
 
-	public function attachment($file_source, $filename = NULL, $type = 'attachment', $content_id = NULL)
+	public function attachment($file_source, $filename = NULL, $type = 'attachment', $content_id = NULL): static
 	{
 		$file_extension = pathinfo($file_source, PATHINFO_EXTENSION);
 
@@ -97,18 +99,18 @@ class Kohana_Services_Message extends AWSMail_Main
 
 		$data = $this->get_content($file_source, TRUE);
 
-		$this->attachments[$filename] = array(
+		$this->attachments[$filename] = [
 			'name' => $filename,
 			'mimeType' => $file_type,
 			'data' => $data,
 			'contentId' => $content_id,
 			'attachmentType' => ($type == 'inline' ? 'inline; filename="' . $filename . '"' : $type)
-		);
+		];
 
 		return $this;
 	}
 
-	public function send()
+	public function send(): stdClass
 	{
 		if($this->validate())
 		{
@@ -141,7 +143,7 @@ class Kohana_Services_Message extends AWSMail_Main
 					$result->message_id = $response['MessageId'];
 				}
 			}
-			catch(Aws\Exception\AwsException $e)
+			catch(AwsException $e)
 			{
 				$result->code = $e->getStatusCode();
 				$result->error = $e->getAwsErrorMessage();
@@ -180,9 +182,8 @@ class Kohana_Services_Message extends AWSMail_Main
 		}
 
 		$boundary = uniqid(rand(), TRUE);
-
-		$raw_message = '';
-		$raw_message .= 'From: ' . $this->encode_recipients($this->params['Source']) . "\n";
+		
+		$raw_message = 'From: '.$this->encode_recipients($this->params['Source'])."\n";
 
 		if(isset($this->params['Destination']))
 		{
@@ -252,7 +253,7 @@ class Kohana_Services_Message extends AWSMail_Main
 		$this->params['RawMessage']['Data'] = $raw_message;
 	}
 
-	private function has_inline_attachments()
+	private function has_inline_attachments(): bool
 	{
 		foreach($this->attachments as $attachment)
 		{
@@ -263,7 +264,7 @@ class Kohana_Services_Message extends AWSMail_Main
 		return FALSE;
 	}
 
-	private function encode_recipients($recipient)
+	private function encode_recipients($recipient): mixed
 	{
 		if(is_array($recipient))
 			return join(', ', array_map(array($this, 'encode_recipients'), $recipient));
@@ -274,7 +275,7 @@ class Kohana_Services_Message extends AWSMail_Main
 		return $recipient;
 	}
 
-	private function validate()
+	private function validate(): bool
 	{
 		if( ! isset($this->params['Destination']))
 			return FALSE;
