@@ -1,5 +1,5 @@
 # koseven-awsmail
-Amazon Simple Email Service enables you to send and receive email using a reliable and scalable email platform and Koseven Framework.
+Amazon Simple Email Service (SES) enables you to send and receive email using a reliable and scalable email platform and Koseven Framework.
 
 Jump To:
 * [Installation](#installation)
