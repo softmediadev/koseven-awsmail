@@ -18,6 +18,7 @@ Read the Amazon Simple Email Service documentation
 * **Documentation**: https://docs.aws.amazon.com/ses/index.html
 * **AWS SDK for PHP**: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-using-sdk-php.html
 * **SDK API**: https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-email-2010-12-01.html
+* **Credentials file**: https://docs.aws.amazon.com/ses/latest/dg/create-shared-credentials-file.html
 
 **This module was tested using version 3.190.2**
 
@@ -50,15 +51,31 @@ Kohana::modules(array(
 `APPPATH/config/awsmail.php`
 ```php
 <?php
-return array(
-  'access_key' => 'Your access key',
-  'secret_key' => 'Your secret key',
-  'region' => 'us-east-1',
-  'version' => 'latest',
-  'source_email' => array('noreply@domain.com' => 'My Project Name'),
-  'return_email' => array('bounce@domain.com' => ''),
-  'charset' => 'UTF-8'
-);
+return [
+	'credentials' => [
+		'file' => [
+			'path' => 'path/to/credentials',
+			'profile' => 'default'
+		],
+		'access' => [
+			'key' => 'Your access key',
+			'secret' => 'Your secret key'
+		]
+	],
+	'region' => 'us-east-1',
+	'version' => 'latest',
+	'source_email' => ['noreply@domain.com' => 'My Project Name'],
+	'return_email' => ['bounce@domain.com' => ''],
+	'charset' => 'UTF-8'
+];
+```
+Here you can specify which credentials you want to use: using a file stored in your webserver or using the access key directly in the configuration file.
+You can use both at the same time, but using the file option is more secure.
+
+```php
+[default]
+aws_access_key_id = YOUR_AWS_ACCESS_KEY_ID
+aws_secret_access_key = YOUR_AWS_SECRET_ACCESS_KEY
 ```
 
 # Methods
