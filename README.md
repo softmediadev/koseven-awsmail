@@ -19,6 +19,8 @@ Read the Amazon Simple Email Service documentation
 * **AWS SDK for PHP**: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-using-sdk-php.html
 * **SDK API**: https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-email-2010-12-01.html
 
+**This module was tested using version 3.190.2**
+
 #### Installation
 
 Place this module in your modules directory.
@@ -40,7 +42,7 @@ Kohana::modules(array(
 * **Access Key**: Your access key (check link in Requirements). **REQUIRED**
 * **Secret Key**: Your secret key (check link in Requirements). **REQUIRED**
 * **Region**: Amazon SES is available in several AWS Regions around the world (check Developer Guide). **REQUIRED**
-* **Version**: Version of the SDK library (you can use "latest" or "3.149.1"). **REQUIRED**
+* **Version**: Version of the SDK library (you can use "latest" or "3.190.2"). **REQUIRED**
 * **Source Email**: You can set a default source (from) for sending your emails.  **OPTIONAL (BLANK|NULL)**
 * **Return Email**: You can set a default email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. **OPTIONAL (BLANK|NULL)**
 * **Charset**: Default charset. **REQUIRED**
