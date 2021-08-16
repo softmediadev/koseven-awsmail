@@ -1,8 +1,10 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
+
+use Aws\Exception\AwsException;
 
 class Kohana_Services_Template extends AWSMail_Main
 {
-	public function name($value, $arn = NULL)
+	public function name($value, $arn = NULL): static
 	{
 		$this->params['Template'] = $value;
 
@@ -12,7 +14,7 @@ class Kohana_Services_Template extends AWSMail_Main
 		return $this;
 	}
 
-	public function destination(Kohana_Services_Destinations $object)
+	public function destination(Kohana_Services_Destinations $object): static
 	{
 		$object = $object->params;
 
@@ -29,7 +31,7 @@ class Kohana_Services_Template extends AWSMail_Main
 		return $this;
 	}
 
-	public function default_tags(array $tags)
+	public function default_tags(array $tags): static
 	{
 		foreach($tags as $name => $value)
 		{
@@ -42,14 +44,14 @@ class Kohana_Services_Template extends AWSMail_Main
 		return $this;
 	}
 
-	public function default_data(array $data)
+	public function default_data(array $data): static
 	{
 		$this->params['DefaultTemplateData'] = json_encode($data);
 
 		return $this;
 	}
 
-	public function send()
+	public function send(): stdClass
 	{
 		if($this->validate())
 		{
@@ -72,7 +74,7 @@ class Kohana_Services_Template extends AWSMail_Main
 					$result->status = $response['Status'];
 				}
 			}
-			catch(Aws\Exception\AwsException $e)
+			catch(AwsException $e)
 			{
 				$result->code = $e->getStatusCode();
 				$result->error = $e->getAwsErrorMessage();
@@ -86,7 +88,7 @@ class Kohana_Services_Template extends AWSMail_Main
 		}
 	}
 
-	private function validate()
+	private function validate(): bool
 	{
 		if( ! isset($this->params['Destinations']))
 			return FALSE;
