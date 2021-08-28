@@ -24,7 +24,9 @@ class Kohana_Services_Template extends AWSMail_Main
 			$destinations[$type][] = $this->format_email($destination);
 
 		$object['Destination'] = $destinations;
-		$object['ReplacementTemplateData'] = json_encode($object['ReplacementTemplateData']);
+		
+		if (isset($object['ReplacementTemplateData']))
+			$object['ReplacementTemplateData'] = json_encode($object['ReplacementTemplateData']);
 
 		$this->params['Destinations'][] = $object;
 
